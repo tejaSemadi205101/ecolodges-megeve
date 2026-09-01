@@ -23,6 +23,7 @@ export interface HeroSection {
   id: number
   heading: string
   bodycopy: string
+  backgroundMedia : {url: string} | null
 }
 
 export interface IntroductionSection{
@@ -60,10 +61,13 @@ export interface CTASection {
   CTAURL: string
 }
 
+// UI Model
+
 export interface HomePage {
   hero: {
     heading: string
     bodycopy: string
+    backgroundMedia: string | null
   }
 
   introduction: {
@@ -97,3 +101,6 @@ export interface HomePage {
   }
 }
 
+export interface Home {
+  hero: HeroSection
+}

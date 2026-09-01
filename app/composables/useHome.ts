@@ -1,25 +1,28 @@
-import type { error } from "node:console";
-import type { StrapiHomeResponse } from "../types/home";
-import { mapHomeResponse } from "~/utils/homeMapper.ts"
+import type {
+  HomePage,
+  StrapiHomeResponse,
+} from '~/types/home'
+
+import { mapHomeResponse } from '~/utils/homeMapper'
 
 export const useHome = () => {
   const {
-    data : response,
+    data: response,
     pending,
-    error
+    error,
   } = useFetch<StrapiHomeResponse>('/api/home')
 
-  const home = computed(()=>{
-    if(!response.value){
+  const home = computed<HomePage | null>(() => {
+    if (!response.value) {
       return null
     }
 
     console.log('NUXT RESPONSE:', response.value)
-    
+
     return mapHomeResponse(response.value)
   })
 
-  return{
+  return {
     home,
     pending,
     error,

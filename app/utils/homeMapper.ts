@@ -10,8 +10,9 @@ export const mapHomeResponse = (
 
   return {
     hero: {
-      heading: data.Hero.heading,
-      bodycopy: data.Hero.bodycopy,
+      heading: data.Hero?.heading ?? '',
+      bodycopy: data.Hero?.bodycopy ?? '',
+      backgroundMedia: data.Hero?.backgroundMedia?.url ?? null,
     },
 
     introduction: {
