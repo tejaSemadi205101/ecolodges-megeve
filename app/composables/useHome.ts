@@ -16,9 +16,6 @@ export const useHome = () => {
     if (!response.value) {
       return null
     }
-
-    console.log('NUXT RESPONSE:', response.value)
-
     return mapHomeResponse(response.value)
   })
 

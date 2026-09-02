@@ -1,5 +1,4 @@
-import type { Accommodation } from '~/types/accommodation'
-import type { StrapiAccommodation } from '~/types/strapi'
+import type { StrapiAccommodation, Accommodation } from '~/types/accommodation'
 
 export function mapAccommodation(
   data: StrapiAccommodation

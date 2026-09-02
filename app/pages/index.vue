@@ -1,33 +1,45 @@
 <script setup lang="ts">
 import AppFooter from '~/components/layouts/AppFooter.vue'
 import AppNavbar from '~/components/layouts/AppNavbar.vue'
-import HeroSection from '~/components/sections/HerroSection.vue'
+import HeroSection from '~/components/sections/HeroSection.vue'
+import OverviewSection from '~/components/sections/OverviewSection.vue'
+import PropertyListingSections from '~/components/sections/PropertyListingSections.vue'
 
-const {
-  home,
-  pending,
-  error,
-} = useHome()
+const { home, pending, error } = useHome()
 </script>
 
 <template>
   <AppNavbar />
 
   <main>
-    <div v-if="pending">
+    <p v-if="pending" role="status">
       Loading...
-    </div>
+    </p>
 
-    <div v-else-if="error">
+    <p v-else-if="error" role="alert">
       Failed to load homepage.
-    </div>
+    </p>
 
-    <HerroSection
-      v-else-if="home?.hero"
-      :heading="home.hero.heading"
-      :bodycopy="home.hero.bodycopy"
-      :background-media="home.hero.backgroundMedia"
-    />
+    <template v-else-if="home">
+      <HeroSection
+        :heading="home.hero.heading"
+        :bodycopy="home.hero.bodycopy"
+        :background-media="home.hero.backgroundMedia"
+      />
+
+      <OverviewSection
+        :eyebrow="home.introduction.eyebrowCopy"
+        :title="home.introduction.heading"
+        :description="home.introduction.bodycopy"
+        :image="home.introduction.media"
+        :image-alt="home.introduction.mediaAlt"
+      />
+
+      <PropertyListingSections 
+        :heading="home.featuredAccommodation.heading"
+        :bodycopy="home.featuredAccommodation.bodycopy"
+      />
+    </template>
   </main>
 
   <AppFooter />

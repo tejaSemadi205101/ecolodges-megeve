@@ -45,7 +45,7 @@ defineProps<HeroSectionProps>()
 
           <h1
             id="hero-heading"
-            class="font-['Libre_Baskerville'] text-4xl font-medium leading-[50px] text-white"
+            class="font-['Libre_Baskerville'] text-4xl font-medium leading-12.5 text-white"
           >
             {{ heading }}
           </h1>
@@ -64,7 +64,7 @@ defineProps<HeroSectionProps>()
 
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-gradient-to-b from-stone-900/0 to-stone-900"
+      class="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-linear-to-b from-stone-900/0 to-stone-900"
     />
 
   </section>

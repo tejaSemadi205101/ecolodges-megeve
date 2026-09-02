@@ -3,34 +3,38 @@ export interface StrapiHomeResponse {
   meta: Record<string, unknown>
 }
 
+export interface StrapiMedia {
+  url: string
+  alternativeText: string | null
+}
+
 export interface StrapiHomeData {
   id: number
   documentId: string
   createdAt: string
   updatedAt: string
   publishedAt: string
-
   Hero: HeroSection
   Introduction: IntroductionSection
   FeaturedAccomodation: FeaturedAccommodationSection
   Experiences: ExperiencesSection
   Testimonials: TestimonialsSection
   CTASections: CTASection
-
 }
 
 export interface HeroSection {
   id: number
   heading: string
   bodycopy: string
-  backgroundMedia : {url: string} | null
+  backgroundMedia: StrapiMedia | null
 }
 
 export interface IntroductionSection{
   id: number
-  eyeBrowCopy: string
+  eyeBrowCopy: string 
   heading: string
   bodycopy: string
+  media: StrapiMedia | null
 }
 
 export interface FeaturedAccommodationSection {
@@ -71,9 +75,11 @@ export interface HomePage {
   }
 
   introduction: {
-    eyebrowcopy: string
+    eyebrowCopy: string
     heading: string
     bodycopy: string
+    media: string | null
+    mediaAlt: string
   }
 
   featuredAccommodation: {
@@ -99,8 +105,4 @@ export interface HomePage {
     cta: string
     url: string
   }
-}
-
-export interface Home {
-  hero: HeroSection
 }

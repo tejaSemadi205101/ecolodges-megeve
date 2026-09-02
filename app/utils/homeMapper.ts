@@ -3,6 +3,20 @@ import type {
   StrapiHomeResponse,
 } from '~/types/home'
 
+const STRAPI_URL = 'http://localhost:1337'
+
+const getMediaUrl = (url: string | null): string | null => {
+  if (!url) {
+    return null
+  }
+
+  if (url.startsWith('http')) {
+    return url
+  }
+
+  return `${STRAPI_URL}${url}`
+}
+
 export const mapHomeResponse = (
   response: StrapiHomeResponse,
 ): HomePage => {
@@ -10,15 +24,23 @@ export const mapHomeResponse = (
 
   return {
     hero: {
-      heading: data.Hero?.heading ?? '',
-      bodycopy: data.Hero?.bodycopy ?? '',
-      backgroundMedia: data.Hero?.backgroundMedia?.url ?? null,
+      heading: data.Hero.heading,
+      bodycopy: data.Hero.bodycopy,
+      backgroundMedia: getMediaUrl(
+        data.Hero.backgroundMedia?.url ?? null,
+      ),
     },
 
     introduction: {
-      eyebrowcopy: data.Introduction.eyeBrowCopy,
+      eyebrowCopy: data.Introduction.eyeBrowCopy, 
       heading: data.Introduction.heading,
       bodycopy: data.Introduction.bodycopy,
+      media: getMediaUrl(
+        data.Introduction.media?.url ?? null,
+      ),
+      mediaAlt:
+        data.Introduction.media?.alternativeText
+        ?? data.Introduction.heading,
     },
 
     featuredAccommodation: {
