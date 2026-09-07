@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import type { MediaAsset } from '~/types/home'
 
 interface HeroSectionProps {
   heading: string
   bodycopy: string
-  backgroundMedia: string | null
+  backgroundMedia: MediaAsset | null
 }
 
 defineProps<HeroSectionProps>()
@@ -24,8 +25,10 @@ defineProps<HeroSectionProps>()
     >
       <img
         v-if="backgroundMedia"
-        :src="backgroundMedia"
+        :src="backgroundMedia.url"
         alt=""
+        :width="backgroundMedia.width"
+        :height="backgroundMedia.height"
         class="h-full w-full object-cover object-center"
       />
     </div>

@@ -1,26 +1,35 @@
-import type { StrapiHomeResponse } from "~/types/home"
-import qs from "qs"
+import qs from 'qs'
+import type { StrapiHomeResponse } from '~/types/home'
 
-export default defineEventHandler(
-  async (): Promise<StrapiHomeResponse> => {
-    const config = useRuntimeConfig()
+export default defineEventHandler(async (): Promise<StrapiHomeResponse> => {
+  const config = useRuntimeConfig()
 
-    const query = qs.stringify(
-      {
-        populate: {
-          Hero: { populate: ["backgroundMedia"] },
-          Introduction: { populate: ["media"] },
-          FeaturedAccomodation: { populate: "*" },
-          Experiences: { populate: "*" },
-          Testimonials: { populate: "*" },
-          CTASections: { populate: "*" },
+  if (!config.strapiBaseUrl) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'NUXT_STRAPI_URL is not configured.',
+    })
+  }
+
+  const query = qs.stringify(
+    {
+      populate: {
+        heroSection: { populate: { backgroundMedia: true } },
+        introduction: { populate: { imageSection: true } },
+        featuredAccomodation: true,
+        featuredExperiences: {
+          populate: {
+            experienceslisting: { populate: { experiencesPhoto: true } },
+          },
         },
       },
-      { encodeValuesOnly: true },
-    )
+    },
+    { encodeValuesOnly: true },
+  )
 
-    return await $fetch<StrapiHomeResponse>(
-      `${config.strapiUrl}/api/home?${query}`,
-    )
-  },
-)   
+  return await $fetch<StrapiHomeResponse>(`${config.strapiBaseUrl}/api/home?${query}`, {
+    headers: config.strapiApiToken
+      ? { Authorization: `Bearer ${config.strapiApiToken}` }
+      : undefined,
+  })
+})

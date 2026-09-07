@@ -1,27 +1,11 @@
-import type {
-  HomePage,
-  StrapiHomeResponse,
-} from '~/types/home'
+import type { StrapiHomeResponse } from '~/types/home'
+import { mapHomeData } from '~/mappers/homeMapper'
 
-import { mapHomeResponse } from '~/utils/homeMapper'
+export function useHome() {
+  const config = useRuntimeConfig()
 
-export const useHome = () => {
-  const {
-    data: response,
-    pending,
-    error,
-  } = useFetch<StrapiHomeResponse>('/api/home')
-
-  const home = computed<HomePage | null>(() => {
-    if (!response.value) {
-      return null
-    }
-    return mapHomeResponse(response.value)
+  return useAsyncData('home-page', async () => {
+    const res = await $fetch<StrapiHomeResponse>('/api/home')
+    return mapHomeData(res, config.public.strapiBaseUrl)
   })
-
-  return {
-    home,
-    pending,
-    error,
-  }
 }

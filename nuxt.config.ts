@@ -5,8 +5,17 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  components: [
+    { path: '~/components/sections', pathPrefix: false },
+    '~/components'
+  ],
+
   runtimeConfig:{
-    strapiUrl: process.env.NUXT_STRAPI_URL,
+    strapiApiToken: process.env.NUXT_STRAPI_API_TOKEN,
+    strapiBaseUrl: process.env.NUXT_STRAPI_URL,
+    public: {
+      strapiBaseUrl: process.env.NUXT_STRAPI_URL,
+    }
   },
 
   css: ['~/assets/css/tailwind.css'],
@@ -17,5 +26,5 @@ export default defineNuxtConfig({
     ],
   },
 
-  modules: ['shadcn-nuxt'],
+  modules: ['shadcn-nuxt', '@nuxt/image'],
 })

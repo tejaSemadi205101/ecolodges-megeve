@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import type { MediaAsset } from '~/types/home'
+
 interface Props {
   eyebrow: string
   title: string
   description: string
-  image: string | null
-  imageAlt: string
+  image: MediaAsset | null
 }
 
 defineProps<Props>()
@@ -37,10 +38,10 @@ defineProps<Props>()
 
       <figure v-if="image">
         <img
-          :src="image"
-          :alt="imageAlt"
-          width="1105"
-          height="621"
+          :src="image.url"
+          :alt="image.alt"
+          :width="image.width"
+          :height="image.height"
           loading="lazy"
           decoding="async"
           class="h-auto w-full rounded-sm object-cover"

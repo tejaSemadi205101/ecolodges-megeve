@@ -1,108 +1,88 @@
-export interface StrapiHomeResponse {
-  data: StrapiHomeData
-  meta: Record<string, unknown>
+export interface StrapiMediaFormat {
+  url: string
+  width: number
+  height: number
 }
 
 export interface StrapiMedia {
   url: string
   alternativeText: string | null
+  width: number
+  height: number
+  formats?: Record<string, StrapiMediaFormat>
 }
 
-export interface StrapiHomeData {
-  id: number
-  documentId: string
-  createdAt: string
-  updatedAt: string
-  publishedAt: string
-  Hero: HeroSection
-  Introduction: IntroductionSection
-  FeaturedAccomodation: FeaturedAccommodationSection
-  Experiences: ExperiencesSection
-  Testimonials: TestimonialsSection
-  CTASections: CTASection
+export interface StrapiHomeResponse {
+  data: {
+    heroSection: {
+      heading: string
+      bodycopy: string
+      backgroundMedia: StrapiMedia | null
+    }
+    introduction: {
+      eyebrowHeading: string
+      heading: string
+      bodycopy: string
+      imageSection: StrapiMedia | null
+    }
+    featuredAccomodation: {
+      heading: string
+      bodycopy: string
+    }
+    featuredExperiences: {
+      heading: string
+      bodycopy: string
+      ctaCopy: string
+      experienceslisting: Array<{
+        id: number
+        heading: string
+        experiencesPhoto: StrapiMedia | null
+      }>
+    }
+  }
+}
+
+export interface MediaAsset {
+  url: string
+  alt: string
+  width: number
+  height: number
 }
 
 export interface HeroSection {
-  id: number
   heading: string
   bodycopy: string
-  backgroundMedia: StrapiMedia | null
+  backgroundMedia: MediaAsset | null
 }
 
-export interface IntroductionSection{
-  id: number
-  eyeBrowCopy: string 
+export interface IntroductionSection {
+  eyebrowHeading: string
   heading: string
   bodycopy: string
-  media: StrapiMedia | null
+  imageSection: MediaAsset | null
 }
 
 export interface FeaturedAccommodationSection {
-  id: number
   heading: string
   bodycopy: string
 }
 
-export interface ExperiencesSection {
+export interface ExperienceItem {
   id: number
   heading: string
-  bodycopy: string
-  experienceCTA: string
+  photo: MediaAsset | null
 }
 
-export interface TestimonialsSection {
-  id: number
+export interface FeaturedExperiencesSection {
   heading: string
   bodycopy: string
-  CTACopy: string
+  ctaCopy: string
+  items: ExperienceItem[]
 }
 
-export interface CTASection {
-  id: number
-  heading: string
-  bodycopy: string
-  CTACopy: string
-  CTAURL: string
-}
-
-// UI Model
-
-export interface HomePage {
-  hero: {
-    heading: string
-    bodycopy: string
-    backgroundMedia: string | null
-  }
-
-  introduction: {
-    eyebrowCopy: string
-    heading: string
-    bodycopy: string
-    media: string | null
-    mediaAlt: string
-  }
-
-  featuredAccommodation: {
-    heading: string
-    bodycopy: string
-  }
-
-  experiences: {
-    heading: string
-    bodycopy: string
-    cta: string
-  }
-
-  testimonials: {
-    heading: string
-    bodycopy: string
-    cta: string
-  }
-
-  cta: {
-    heading: string
-    bodycopy: string
-    cta: string
-    url: string
-  }
+export interface HomePageData {
+  hero: HeroSection
+  introduction: IntroductionSection
+  featuredAccommodation: FeaturedAccommodationSection
+  featuredExperiences: FeaturedExperiencesSection
 }
