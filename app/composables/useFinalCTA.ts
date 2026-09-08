@@ -1,5 +1,5 @@
 import type { StrapiFinalCTAResponse } from '~/types/final-cta'
-import { mapFinalCTASection } from '~/mappers/finalCTAMapper'
+import { mapFinalCTASection } from '~/mappers/final-cta-mapper'
 
 export function useFinalCTA() {
   const config = useRuntimeConfig()

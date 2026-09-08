@@ -1,5 +1,5 @@
 import type { StrapiHomeResponse } from '~/types/home'
-import { mapHomeData } from '~/mappers/homeMapper'
+import { mapHomeData } from '~/mappers/home-mapper'
 
 export function useHome() {
   const config = useRuntimeConfig()

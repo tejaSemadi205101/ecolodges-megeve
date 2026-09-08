@@ -1,34 +1,55 @@
-export interface AccommodationUSP {
-  id: number
-  heading: string
-  bodycopy: string
+export interface StrapiAccommodationResponse {
+  data: StrapiAccommodation[]
+  meta: {
+    pagination: {
+      page: number
+      pageSize: number
+      pageCount: number
+      total: number
+    }
+  }
 }
 
-export interface AccommodationFacility {
+export interface StrapiAccommodation {
   id: number
-  name: string
-  icon: string | null
-}
+  documentId: string
+  propertyName: string
+  propertyTitle: string
+  slug: string
+  accommodationType: string
+  propertySummary: string
+  propertyAddress: string
+  propertyDescription: string
+  guestCapacity: string
+  bedroomAmount: string
+  bathroomAmount: string
 
-export interface AccommodationFacilityCategory {
-  id: number
-  name: string
-  items: string[]
-}
+  usp: {
+    id: number
+    heading: string
+    bodycopy: string
+  }[]
 
-export interface AccommodationFacilities {
-  signature: AccommodationFacility[]
-  categories: AccommodationFacilityCategory[]
-}
+  facilities: {
+    signatureFacilities: {
+      id: number
+      signatureName: string
+      icon: string | null
+    }[]
 
-export interface AccommodationGallery {
-  id: number
-  collection: string
-}
+    categories: {
+      id: number
+      categoriesName: string
+      categoryItems: string[]
+    }[]
+  }
 
-export interface AccommodationSeasonRate {
-  id: number
-  [key: string]: unknown
+  gallery: {
+    id: number
+    photosCollection: string
+  }[]
+
+  seasonRates: Record<string, unknown>[]
 }
 
 export interface Accommodation {
@@ -44,8 +65,31 @@ export interface Accommodation {
   guestCapacity: number
   bedroomAmount: number
   bathroomAmount: number
-  usps: AccommodationUSP[]
-  facilities: AccommodationFacilities
-  gallery: AccommodationGallery[]
-  seasonRates: AccommodationSeasonRate[]
+
+  usps: {
+    id: number
+    heading: string
+    bodycopy: string
+  }[]
+
+  facilities: {
+    signature: {
+      id: number
+      name: string
+      icon: string | null
+    }[]
+
+    categories: {
+      id: number
+      name: string
+      items: string[]
+    }[]
+  }
+
+  gallery: {
+    id: number
+    collection: string
+  }[]
+
+  seasonRates: Record<string, unknown>[]
 }
