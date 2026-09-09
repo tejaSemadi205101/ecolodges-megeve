@@ -1,3 +1,5 @@
+import type { StrapiMedia, MediaAsset } from "./home"
+
 export interface StrapiAccommodationResponse {
   data: StrapiAccommodation[]
   meta: {
@@ -92,4 +94,76 @@ export interface Accommodation {
   }[]
 
   seasonRates: Record<string, unknown>[]
+}
+
+export interface StrapiAccommodationPage {
+  id: number
+  documentId: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+
+  heroSection: {
+    id: number
+    heading: string
+    bodycopy: string
+    backgroundMedia: StrapiMedia | null
+  }
+
+  AccomodationList: {
+    id: number
+    heading: string
+  }
+
+  USP: {
+    id: number
+    heading: string
+    bodycopy: string
+
+    USPItem: {
+      id: number
+      heading: string
+      bodycopy: string
+      image: StrapiMedia | null
+    }[]
+  }
+}
+
+export interface StrapiAccommodationPageResponse {
+  data: {
+    heroSection: StrapiAccommodationPage['heroSection']
+    AccomodationList: StrapiAccommodationPage['AccomodationList']
+    USP: StrapiAccommodationPage['USP']
+    accommodations: StrapiAccommodation[]
+  }
+}
+
+export interface AccommodationHero {
+  heading: string
+  bodycopy: string
+  backgroundMedia: MediaAsset | null
+}
+
+export interface AccommodationListSection {
+  heading: string
+}
+
+export interface AccommodationUSPItem {
+  id: number
+  heading: string
+  bodycopy: string
+  image: MediaAsset | null
+}
+
+export interface AccommodationUSP {
+  heading: string
+  bodycopy: string
+  items: AccommodationUSPItem[]
+}
+
+export interface AccommodationPageData {
+  hero: AccommodationHero
+  accommodationList: AccommodationListSection
+  usp: AccommodationUSP
+  accommodations: Accommodation[]
 }

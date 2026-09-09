@@ -64,3 +64,53 @@ export interface Experience {
 
   images: MediaAsset[]
 }
+
+export interface StrapiExperiencesPage {
+  id: number
+  documentId: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+
+  heroSection: {
+    id: number
+    heading: string
+    bodycopy: string
+    backgroundMedia: StrapiMedia | null
+  }
+
+  overviewSection: {
+    id: number
+    eyebrowHeading: string
+    heading: string
+    bodycopy: string
+    imageSection: StrapiMedia | null
+  }
+}
+
+export interface StrapiExperiencesPageResponse {
+  data: {
+    heroSection: StrapiExperiencesPage['heroSection']
+    overviewSection: StrapiExperiencesPage['overviewSection']
+    experiencesItems: StrapiExperiences[]
+  }
+}
+
+export interface ExperiencesHero {
+  heading: string
+  bodycopy: string
+  backgroundMedia: MediaAsset | null
+}
+
+export interface ExperiencesOverview {
+  eyebrowHeading: string
+  heading: string
+  bodycopy: string
+  imageSection: MediaAsset | null
+}
+
+export interface ExperiencesPageData {
+  hero: ExperiencesHero
+  overview: ExperiencesOverview
+  experiences: Experience[]
+}

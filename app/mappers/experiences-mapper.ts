@@ -1,7 +1,8 @@
 import type {
   Experience,
   StrapiExperiences,
-  StrapiExperiencesResponse,
+  StrapiExperiencesPageResponse,
+  ExperiencesPageData
 } from '~/types/experiences'
 
 import type { MediaAsset } from '~/types/home'
@@ -46,10 +47,43 @@ export function mapExperience(
 }
 
 export function mapExperienceData(
-  response: StrapiExperiencesResponse,
+  items: StrapiExperiences[],
   baseUrl: string,
 ): Experience[] {
-  return response.data.map((item) =>
+  return items.map((item) =>
     mapExperience(item, baseUrl),
   )
 }
+
+export function mapExperiencesPage(
+  response: StrapiExperiencesPageResponse,
+  baseUrl: string
+): ExperiencesPageData {
+  return {
+    hero: {
+      heading: response.data.heroSection.heading,
+      bodycopy: response.data.heroSection.bodycopy,
+      backgroundMedia: mapMediaAsset(
+        response.data.heroSection.backgroundMedia,
+        response.data.heroSection.heading,
+        baseUrl,
+      ),
+    },
+
+    overview: {
+      eyebrowHeading: response.data.overviewSection.eyebrowHeading,
+      heading: response.data.overviewSection.heading,
+      bodycopy: response.data.overviewSection.bodycopy,
+      imageSection: mapMediaAsset(
+        response.data.overviewSection.imageSection,
+        response.data.overviewSection.heading,
+        baseUrl,
+      )
+    },
+
+    experiences: mapExperienceData(
+      response.data.experiencesItems,
+      baseUrl,
+    )
+  }
+} 

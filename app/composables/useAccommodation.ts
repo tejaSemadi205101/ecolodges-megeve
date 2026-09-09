@@ -1,18 +1,24 @@
-import type { StrapiAccommodationResponse, Accommodation } from '~/types/accommodation'
-import { mapAccommodationData } from '~/mappers/accommodation-mapper'
+import type { 
+  StrapiAccommodationPageResponse, 
+  AccommodationPageData } from '~/types/accommodation'
+import { mapAccommodationPage } from '~/mappers/accommodation-mapper'
 
 export function useAccommodation() {
+  const config = useRuntimeConfig()
+
   const {
     data: response,
     pending,
     error,
     refresh,
-  } = useAsyncData<StrapiAccommodationResponse>('/api/accommodation', () => $fetch('/api/accommodation'))
+  } = useAsyncData<StrapiAccommodationPageResponse>('/api/accommodation', () => $fetch('/api/accommodation'))
 
-  const accommodations = computed<Accommodation[]>(() => {
-    if (!response.value) return []
+  const accommodations = computed<AccommodationPageData | null>(() => {
+    if (!response.value) {
+      return null
+    }
 
-    return mapAccommodationData(response.value)
+    return mapAccommodationPage(response.value, config.public.strapiBaseUrl)
   })
 
   return {

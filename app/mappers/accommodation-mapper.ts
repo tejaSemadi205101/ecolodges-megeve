@@ -1,8 +1,14 @@
 import type {
   Accommodation,
+  AccommodationPageData,
   StrapiAccommodation,
   StrapiAccommodationResponse,
+  StrapiAccommodationPageResponse,
 } from '~/types/accommodation'
+
+import type { MediaAsset } from '~/types/home'
+
+import { mapMediaAsset } from '~/utils/strapi-media' 
 
 export function mapAccommodation(
   item: StrapiAccommodation,
@@ -55,4 +61,45 @@ export function mapAccommodationData(
   response: StrapiAccommodationResponse,
 ): Accommodation[] {
   return response.data.map(mapAccommodation)
+}
+
+export function mapAccommodationPage(
+  response: StrapiAccommodationPageResponse,
+  baseUrl: string
+): AccommodationPageData {
+  return {
+    hero: {
+      heading: response.data.heroSection.heading,
+      bodycopy: response.data.heroSection.bodycopy,
+      backgroundMedia: mapMediaAsset(
+        response.data.heroSection.backgroundMedia,
+        response.data.heroSection.heading,
+        baseUrl,
+      )
+    },
+
+    accommodationList: {
+      heading: response.data.AccomodationList.heading,
+    },
+
+    usp: {
+      heading: response.data.USP.heading,
+      bodycopy: response.data.USP.bodycopy,
+
+      items: response.data.USP.USPItem.map((item) =>({
+        id: item.id,
+        heading: item.heading,
+        bodycopy: item.bodycopy,
+        image: mapMediaAsset(
+          item.image,
+          item.heading,
+          baseUrl,
+        )
+      })),
+    },
+
+    accommodations: response.data.accommodations.map(
+      mapAccommodation
+    )
+  }
 }

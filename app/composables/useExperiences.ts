@@ -1,9 +1,10 @@
 import type {
   Experience,
-  StrapiExperiencesResponse,
+  ExperiencesPageData,
+  StrapiExperiencesPageResponse,
 } from '~/types/experiences'
 
-import { mapExperienceData } from '~/mappers/experiences-mapper'
+import { mapExperiencesPage } from '~/mappers/experiences-mapper'
 
 export function useExperiences() {
   const config = useRuntimeConfig()
@@ -13,17 +14,17 @@ export function useExperiences() {
     pending,
     error,
     refresh,
-  } = useAsyncData<StrapiExperiencesResponse>(
+  } = useAsyncData<StrapiExperiencesPageResponse>(
     'experiences',
     () => $fetch('/api/experiences'),
   )
 
-  const experiences = computed<Experience[]>(() => {
+  const experiences = computed<ExperiencesPageData | null>(() => {
     if (!response.value) {
-      return []
+      return null
     }
 
-    return mapExperienceData(
+    return mapExperiencesPage(
       response.value,
       config.public.strapiBaseUrl,
     )

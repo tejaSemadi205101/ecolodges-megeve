@@ -1,8 +1,14 @@
 import qs from 'qs'
-import type { StrapiAccommodationResponse } from '~/types/accommodation'
+import type { Config } from 'tailwind-merge'
+import HeroSection from '~/components/sections/HeroSection.vue'
+import type { 
+  StrapiAccommodationResponse,
+  StrapiAccommodationPage,
+  StrapiAccommodationPageResponse
+} from '~/types/accommodation'
 
 export default defineEventHandler(
-  async (): Promise<StrapiAccommodationResponse> => {
+  async (): Promise<StrapiAccommodationPageResponse> => {
     const config = useRuntimeConfig()
 
     if (!config.strapiBaseUrl) {
@@ -12,12 +18,37 @@ export default defineEventHandler(
       })
     }
 
-    const query = qs.stringify(
+    const pageQuery = qs.stringify(
       {
         populate: {
-          gallery: {
-            populate: '*',
+          heroSection: {
+            populate: {
+              backgroundMedia: true
+            }
           },
+
+          AccomodationList: true,
+
+          USP: {
+            populate: {
+              USPItem: {
+                populate: {
+                  image: true,
+                }
+              }
+            }
+          }
+        },
+      },
+      {
+        encodeValuesOnly: true,
+      }
+    )
+
+    const accommodationQuery = qs.stringify(
+      {
+        populate: {
+          gallery: true,
           facilties_datum: {
             populate: '*',
           },
@@ -34,15 +65,42 @@ export default defineEventHandler(
       },
     )
 
-    return await $fetch<StrapiAccommodationResponse>(
-      `${config.strapiBaseUrl}/api/accomodation-lists?${query}`,
-      {
-        headers: config.strapiApiToken
-          ? {
-              Authorization: `Bearer ${config.strapiApiToken}`,
-            }
-          : undefined,
-      },
+    const [pageResponse, accommodationsResponse] = await Promise.all([
+      $fetch<{ data : StrapiAccommodationPage }>(
+        `${config.strapiBaseUrl}/api/accomodation?${pageQuery}`,
+        {
+          headers: config.strapiApiToken
+          ?{
+            Authorization: `Bearer ${config.strapiApiToken}`,
+          }
+          : undefined
+        }
+      ),
+
+      $fetch<StrapiAccommodationResponse>(
+        `${config.strapiBaseUrl}/api/accomodation-lists?${accommodationQuery}`,
+        {
+          headers: config.strapiApiToken
+            ? {
+                Authorization: `Bearer ${config.strapiApiToken}`,
+              }
+            : undefined,
+        },
+      )
+    ])
+
+    console.log(
+      'Accommodation collection response received:',
+      !!accommodationsResponse,
     )
+
+    return {
+      data: {
+        heroSection: pageResponse.data.heroSection,
+        AccomodationList: pageResponse.data.AccomodationList,
+        USP: pageResponse.data.USP,
+        accommodations: accommodationsResponse.data,
+      }
+    }
   },
 )
