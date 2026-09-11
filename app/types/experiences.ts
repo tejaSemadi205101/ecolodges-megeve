@@ -1,4 +1,5 @@
 import type { StrapiMedia, MediaAsset } from '~/types/home'
+import type { StrapiPageSEO, PageSEO } from './seo'
 
 export interface StrapiExperiencesResponse {
   data: StrapiExperiences[]
@@ -86,6 +87,8 @@ export interface StrapiExperiencesPage {
     bodycopy: string
     imageSection: StrapiMedia | null
   }
+
+  pageSEO: StrapiPageSEO | null
 }
 
 export interface StrapiExperiencesPageResponse {
@@ -93,6 +96,7 @@ export interface StrapiExperiencesPageResponse {
     heroSection: StrapiExperiencesPage['heroSection']
     overviewSection: StrapiExperiencesPage['overviewSection']
     experiencesItems: StrapiExperiences[]
+    pageSEO: StrapiExperiencesPage['pageSEO']
   }
 }
 
@@ -113,4 +117,5 @@ export interface ExperiencesPageData {
   hero: ExperiencesHero
   overview: ExperiencesOverview
   experiences: Experience[]
+  pageSEO: PageSEO | null
 }

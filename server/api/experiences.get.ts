@@ -27,6 +27,11 @@ export default defineEventHandler(async (): Promise<StrapiExperiencesPageRespons
               imageSection: true
             },
           },
+          pageSEO:{
+            populate:{
+              metaImage: true
+            }
+          }
         },
       },
       {
@@ -71,6 +76,7 @@ export default defineEventHandler(async (): Promise<StrapiExperiencesPageRespons
         heroSection: pageResponse.data.heroSection,
         overviewSection: pageResponse.data.overviewSection,
         experiencesItems: itemsResponse.data,
+        pageSEO: pageResponse.data.pageSEO,
       },
     }
   }

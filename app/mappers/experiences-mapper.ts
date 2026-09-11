@@ -9,6 +9,8 @@ import type { MediaAsset } from '~/types/home'
 
 import { mapMediaAsset } from '~/utils/strapi-media'
 
+import { mapPageSEO } from './seo-mapper'
+
 export function mapExperience(
   item: StrapiExperiences,
   baseUrl: string,
@@ -83,6 +85,11 @@ export function mapExperiencesPage(
 
     experiences: mapExperienceData(
       response.data.experiencesItems,
+      baseUrl,
+    ),
+
+    pageSEO: mapPageSEO(
+      response.data.pageSEO,
       baseUrl,
     )
   }

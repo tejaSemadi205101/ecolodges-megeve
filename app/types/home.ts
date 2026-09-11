@@ -1,3 +1,5 @@
+import type { StrapiPageSEO, PageSEO } from "./seo"
+
 export interface StrapiMediaFormat {
   url: string
   width: number
